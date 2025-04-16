@@ -7,13 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class Employee {
+public class Employee extends Person {
 
 	private String employeeId;
-	private String firstName;
-	private String lastName;
-	private String idNumber;
-	private String address;
 	
 	private int yearJoined;
 	private int monthJoined;
@@ -23,15 +19,11 @@ public class Employee {
 	private boolean isForeigner;
 	private boolean gender; //true = Laki-laki, false = Perempuan
 	
-	private int monthlySalary;
-	private int otherMonthlyIncome;
-	private int annualDeductible;
+	private IncomeInfo incomeInfo;
 	
-	private String spouseName;
-	private String spouseIdNumber;
+	private PersonSimple spouse;
 
-	private List<String> childNames;
-	private List<String> childIdNumbers;
+	private List<PersonSimple> child;
 	
 	private static final Map<Integer, Integer> GradeSalaryMap = new HashMap<>() {{
         put(1, 3000000);
@@ -41,18 +33,17 @@ public class Employee {
 
 	public Employee(String employeeId, String firstName, String lastName, String idNumber, String address, int yearJoined, int monthJoined, int dayJoined, boolean isForeigner, boolean gender) {
 		this.employeeId = employeeId;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.idNumber = idNumber;
-		this.address = address;
+		this.setFirstName(firstName);
+		this.setLastName(lastName);
+		this.setIdNumber(idNumber);
+		this.setAddress(address);
 		this.yearJoined = yearJoined;
 		this.monthJoined = monthJoined;
 		this.dayJoined = dayJoined;
 		this.isForeigner = isForeigner;
 		this.gender = gender;
 		
-		childNames = new LinkedList<String>();
-		childIdNumbers = new LinkedList<String>();
+		child = new LinkedList<PersonSimple>();
 	}
 	
 	/**
@@ -60,51 +51,36 @@ public class Employee {
 	 * Jika pegawai adalah warga negara asing gaji bulanan diperbesar sebanyak 50%
 	 */
 	
-	public void setMonthlySalary(int grade) {	
+	public void setMonthlySalary(int grade) {
+
 		if (!GradeSalaryMap.containsKey(grade))
 			throw new IllegalArgumentException("Grade tidak valid: " + grade);;
-		monthlySalary = GradeSalaryMap.get(grade);
+		int finalSalary = GradeSalaryMap.get(grade);
 		if (isForeigner) {
-			monthlySalary = (int) (3000000 * 1.5);
+			finalSalary = (int) (3000000 * 1.5);
 		}
-	}
 
-	public int getMonthlySalary() {
-		return monthlySalary;
+		this.incomeInfo.setMonthlySalary(finalSalary);
 	}
 	
-	public void setAnnualDeductible(int deductible) {	
-		this.annualDeductible = deductible;
+	public IncomeInfo getIncomeInfo() {
+		return incomeInfo;
 	}
 
-	public int getAnnualDeductible() {
-		return annualDeductible;
-	}
-	
-	public void setAdditionalIncome(int income) {	
-		this.otherMonthlyIncome = income;
+	public void setSpouse(PersonSimple spouse) {
+		this.spouse = spouse;
 	}
 
-	public int getAdditionalIncome() {
-		return otherMonthlyIncome;
+	public PersonSimple getSpouse() {
+		return spouse;
 	}
 	
-	public void setSpouse(String spouseName, String spouseIdNumber) {
-		this.spouseName = spouseName;
-		this.spouseIdNumber = idNumber;
-	}
-
-	public String getSpouseName() {
-		return spouseName;
-	}
-	
-	public void addChild(String childName, String childIdNumber) {
-		childNames.add(childName);
-		childIdNumbers.add(childIdNumber);
+	public void addChild(PersonSimple child) {
+		this.child.add(child);
 	}
 
 	public int getChildCount() {
-		return childIdNumbers.size();
+		return child.size();
 	}
 	
 	public int getAnnualIncomeTax() {
