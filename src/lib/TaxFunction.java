@@ -28,10 +28,12 @@ public class TaxFunction {
 			numberOfChildren = 3;
 		}
 		
-		if (!employee.getSpouseName().equals("")) {
-			tax = (int) Math.round(0.05 * (((employee.getMonthlySalary() + employee.getAdditionalIncome()) * numberOfMonthWorking) - employee.getAnnualDeductible() - (54000000 + 4500000 + (numberOfChildren * 1500000))));
+		PersonSimple spouse = employee.getSpouse();
+		IncomeInfo incomeInfo = employee.getIncomeInfo();
+		if (!spouse.getName().equals("")) {
+			tax = (int) Math.round(0.05 * (((incomeInfo.getMonthlySalary() + incomeInfo.getAdditionalIncome()) * numberOfMonthWorking) - incomeInfo.getAnnualDeductible() - (54000000 + 4500000 + (numberOfChildren * 1500000))));
 		}else {
-			tax = (int) Math.round(0.05 * (((employee.getMonthlySalary() + employee.getAdditionalIncome()) * numberOfMonthWorking) - employee.getAnnualDeductible() - 54000000));
+			tax = (int) Math.round(0.05 * (((incomeInfo.getMonthlySalary() + incomeInfo.getAdditionalIncome()) * numberOfMonthWorking) - incomeInfo.getAnnualDeductible() - 54000000));
 		}
 		
 		if (tax < 0) {
