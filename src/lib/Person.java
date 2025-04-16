@@ -6,7 +6,7 @@ public class Person {
 	private String idNumber;
 	private String address;
 
-    private IncomeInfo incomeInfo;
+    protected IncomeInfo incomeInfo;
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
