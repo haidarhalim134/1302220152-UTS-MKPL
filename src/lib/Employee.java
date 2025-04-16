@@ -19,8 +19,6 @@ public class Employee extends Person {
 	private boolean isForeigner;
 	private boolean gender; //true = Laki-laki, false = Perempuan
 	
-	private IncomeInfo incomeInfo;
-	
 	private PersonSimple spouse;
 
 	private List<PersonSimple> child;
