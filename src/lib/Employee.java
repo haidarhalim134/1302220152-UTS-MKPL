@@ -9,6 +9,17 @@ import java.util.Map;
 
 public class Employee extends Person {
 
+	public enum Grade {
+		GRADE1,
+		GRADE2,
+		GRADE3
+	}
+
+	public enum Citizenship {
+		FOREIGNER,
+		LOCAL
+	}
+
 	private String employeeId;
 	
 	private int yearJoined;
@@ -16,20 +27,19 @@ public class Employee extends Person {
 	private int dayJoined;
 	private int monthWorkingInYear;
 	
-	private boolean isForeigner;
-	private boolean gender; //true = Laki-laki, false = Perempuan
+	private Citizenship citizenship;
 	
 	private PersonSimple spouse;
 
 	private List<PersonSimple> child;
 	
-	private static final Map<Integer, Integer> GradeSalaryMap = new HashMap<>() {{
-        put(1, 3000000);
-        put(2, 5000000);
-        put(3, 7000000);
+	private static final Map<Grade, Integer> GradeSalaryMap = new HashMap<>() {{
+        put(Grade.GRADE1, 3000000);
+        put(Grade.GRADE2, 5000000);
+        put(Grade.GRADE3, 7000000);
     }};
 
-	public Employee(String employeeId, String firstName, String lastName, String idNumber, String address, int yearJoined, int monthJoined, int dayJoined, boolean isForeigner, boolean gender) {
+	public Employee(String employeeId, String firstName, String lastName, String idNumber, String address, int yearJoined, int monthJoined, int dayJoined, Citizenship citizenship, Gender gender) {
 		this.employeeId = employeeId;
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
@@ -38,8 +48,8 @@ public class Employee extends Person {
 		this.yearJoined = yearJoined;
 		this.monthJoined = monthJoined;
 		this.dayJoined = dayJoined;
-		this.isForeigner = isForeigner;
-		this.gender = gender;
+		this.citizenship = citizenship;
+		this.setGender(gender);
 		
 		child = new LinkedList<PersonSimple>();
 	}
@@ -49,20 +59,14 @@ public class Employee extends Person {
 	 * Jika pegawai adalah warga negara asing gaji bulanan diperbesar sebanyak 50%
 	 */
 	
-	public void setMonthlySalary(int grade) {
+	public void setMonthlySalary(Grade grade) {
 
-		if (!GradeSalaryMap.containsKey(grade))
-			throw new IllegalArgumentException("Grade tidak valid: " + grade);;
 		int finalSalary = GradeSalaryMap.get(grade);
-		if (isForeigner) {
+		if (citizenship == Citizenship.FOREIGNER) {
 			finalSalary = (int) (3000000 * 1.5);
 		}
 
 		this.incomeInfo.setMonthlySalary(finalSalary);
-	}
-	
-	public IncomeInfo getIncomeInfo() {
-		return incomeInfo;
 	}
 
 	public void setSpouse(PersonSimple spouse) {
