@@ -2,8 +2,10 @@ package lib;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class Employee {
 
@@ -31,6 +33,12 @@ public class Employee {
 	private List<String> childNames;
 	private List<String> childIdNumbers;
 	
+	private static final Map<Integer, Integer> GradeSalaryMap = new HashMap<>() {{
+        put(1, 3000000);
+        put(2, 5000000);
+        put(3, 7000000);
+    }};
+
 	public Employee(String employeeId, String firstName, String lastName, String idNumber, String address, int yearJoined, int monthJoined, int dayJoined, boolean isForeigner, boolean gender) {
 		this.employeeId = employeeId;
 		this.firstName = firstName;
@@ -53,14 +61,9 @@ public class Employee {
 	 */
 	
 	public void setMonthlySalary(int grade) {	
-		if (grade == 1) {
-			monthlySalary = 3000000;
-		}else if (grade == 2) {
-			monthlySalary = 5000000;
-		}else if (grade == 3) {
-			monthlySalary = 7000000;
-		}
-
+		if (!GradeSalaryMap.containsKey(grade))
+			throw new IllegalArgumentException("Grade tidak valid: " + grade);;
+		monthlySalary = GradeSalaryMap.get(grade);
 		if (isForeigner) {
 			monthlySalary = (int) (3000000 * 1.5);
 		}
