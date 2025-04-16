@@ -70,23 +70,43 @@ public class Employee {
 			}
 		}
 	}
+
+	public int getMonthlySalary() {
+		return monthlySalary;
+	}
 	
 	public void setAnnualDeductible(int deductible) {	
 		this.annualDeductible = deductible;
 	}
+
+	public int getAnnualDeductible() {
+		return annualDeductible;
+	}
 	
 	public void setAdditionalIncome(int income) {	
 		this.otherMonthlyIncome = income;
+	}
+
+	public int getAdditionalIncome() {
+		return otherMonthlyIncome;
 	}
 	
 	public void setSpouse(String spouseName, String spouseIdNumber) {
 		this.spouseName = spouseName;
 		this.spouseIdNumber = idNumber;
 	}
+
+	public String getSpouseName() {
+		return spouseName;
+	}
 	
 	public void addChild(String childName, String childIdNumber) {
 		childNames.add(childName);
 		childIdNumbers.add(childIdNumber);
+	}
+
+	public int getChildCount() {
+		return childIdNumbers.size();
 	}
 	
 	public int getAnnualIncomeTax() {
@@ -100,6 +120,6 @@ public class Employee {
 			monthWorkingInYear = 12;
 		}
 		
-		return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouseIdNumber.equals(""), childIdNumbers.size());
+		return TaxFunction.calculateTax(this, monthWorkingInYear);
 	}
 }
